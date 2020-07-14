@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Configuration;
+﻿using System.Collections.Generic;
 
 namespace Chessington.GameEngine.Pieces
 {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Configuration;
+﻿using System.Collections.Generic;
 
 namespace Chessington.GameEngine.Pieces
 {
@@ -14,7 +11,7 @@ namespace Chessington.GameEngine.Pieces
         
         protected bool FirstMove = true;
 
-        public Player Player { get; private set; }
+        public Player Player { get; }
 
         public abstract IEnumerable<Square> GetAvailableMoves(Board board);
 
@@ -35,7 +32,7 @@ namespace Chessington.GameEngine.Pieces
 
             for (var directionIndex = 0; directionIndex < 4; directionIndex++)
             {
-                for (var distance = 1; distance <= 7; distance++)
+                for (var distance = 1; distance < GameSettings.BoardSize; distance++)
                 {
                     var row = currentSquare.Row + distance * y[directionIndex];
                     var col = currentSquare.Col + distance * x[directionIndex];
@@ -66,7 +63,7 @@ namespace Chessington.GameEngine.Pieces
 
             for (var directionIndex = 0; directionIndex < 4; directionIndex++)
             {
-                for (var distance = 1; distance <= 7; distance++)
+                for (var distance = 1; distance < GameSettings.BoardSize; distance++)
                 {
                     var row = currentSquare.Row + distance * y[directionIndex];
                     var col = currentSquare.Col + distance * x[directionIndex];
@@ -79,7 +76,6 @@ namespace Chessington.GameEngine.Pieces
                         {
                             availableMoves.Add(Square.At(row, col));
                         }
-
                         break;
                     }
                 }

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Chessington.GameEngine.Pieces;
 
 namespace Chessington.GameEngine
@@ -9,7 +8,8 @@ namespace Chessington.GameEngine
     {
         private readonly Piece[,] board;
         public Player CurrentPlayer { get; private set; }
-        public IList<Piece> CapturedPieces { get; private set; } 
+
+        public IList<Piece> CapturedPieces { get; }
 
         public Board()
             : this(Player.White) { }
