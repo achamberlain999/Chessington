@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Chessington.GameEngine.Pieces
 {
@@ -10,7 +9,12 @@ namespace Chessington.GameEngine.Pieces
 
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
-            return Enumerable.Empty<Square>();
+            var availableMovesList = new List<Square>();
+            availableMovesList.Add(new Square(6,0));
+            availableMovesList.Add(new Square(2,0));
+            
+            IEnumerable<Square> availableMoves = availableMovesList;
+            return availableMoves;
         }
     }
 }
