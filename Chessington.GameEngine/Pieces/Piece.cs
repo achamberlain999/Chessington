@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Configuration;
 
 namespace Chessington.GameEngine.Pieces
 {
@@ -10,10 +11,10 @@ namespace Chessington.GameEngine.Pieces
         {
             Player = player;
         }
+        
+        protected bool FirstMove = true;
 
         public Player Player { get; private set; }
-
-        public bool HasMoved = false;
 
         public abstract IEnumerable<Square> GetAvailableMoves(Board board);
 
@@ -21,15 +22,16 @@ namespace Chessington.GameEngine.Pieces
         {
             var currentSquare = board.FindPiece(this);
             board.MovePiece(currentSquare, newSquare);
-            this.HasMoved = true;
+            FirstMove = false;
         }
 
-        protected List<Square> GetDiagonalMovesList(Board board)
+        protected IEnumerable<Square> GetDiagonalMovesList(Board board)
         {
             var currentSquare = board.FindPiece(this);
             var availableMovesList = new List<Square>();
-            var x = new List<int>{1, 1, -1, -1};
-            var y = new List<int>{1, -1, 1, -1};
+            
+            var x = new List<int> {1, 1, -1, -1};
+            var y = new List<int> {1, -1, 1, -1};
 
             for (var i = 0; i <= 8; i++)
             {
@@ -47,7 +49,7 @@ namespace Chessington.GameEngine.Pieces
             return availableMovesList;
         }
 
-        protected List<Square> GetLateralMovesList(Board board)
+        protected IEnumerable<Square> GetLateralMovesList(Board board)
         {
             var currentSquare = board.FindPiece(this);
             var availableMovesList = new List<Square>();

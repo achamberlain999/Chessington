@@ -11,7 +11,7 @@ namespace Chessington.GameEngine.Pieces
         public override IEnumerable<Square> GetAvailableMoves(Board board)
         {
             var currentSquare = board.FindPiece(this);
-            var availableMovesList = new List<Square>();
+            var availableMoves = new List<Square>();
 
             var x = new List<int> {0, 1, 1, 1, 0, -1, -1, -1};
             var y = new List<int> {1, 1, 0, -1, -1, -1, 0, 1};
@@ -22,12 +22,10 @@ namespace Chessington.GameEngine.Pieces
                 var tryCol = currentSquare.Col + y[i];
                 if (InBounds(tryRow,tryCol))
                 {
-                    availableMovesList.Add(new Square(tryRow,tryCol));
+                    availableMoves.Add(new Square(tryRow,tryCol));
                 }
             }
-            
-            IEnumerable<Square> availableMoves = availableMovesList;
-            
+
             return availableMoves;
         }
     }
