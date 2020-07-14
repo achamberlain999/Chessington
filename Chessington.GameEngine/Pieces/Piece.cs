@@ -38,13 +38,13 @@ namespace Chessington.GameEngine.Pieces
                 for (var distance = 1; distance <= 7; distance++)
                 {
                     var row = currentSquare.Row + distance * y[directionIndex];
-                    var col = currentSquare.Row + distance * x[directionIndex];
+                    var col = currentSquare.Col + distance * x[directionIndex];
                     if (InBounds(row, col) && board.EmptySpace(row, col)) {
                         availableMoves.Add(Square.At(row, col));
                     }
                     else
                     {
-                        if (InBounds(row, col) && board.GetPiece(Square.At(row, col)).Player != board.CurrentPlayer)
+                        if (InBounds(row, col) && board.GetPiece(Square.At(row, col)).Player != board.GetPiece(Square.At(currentSquare.Row, currentSquare.Col)).Player)
                         {
                             availableMoves.Add(Square.At(row, col));
                         }
@@ -69,16 +69,17 @@ namespace Chessington.GameEngine.Pieces
                 for (var distance = 1; distance <= 7; distance++)
                 {
                     var row = currentSquare.Row + distance * y[directionIndex];
-                    var col = currentSquare.Row + distance * x[directionIndex];
+                    var col = currentSquare.Col + distance * x[directionIndex];
                     if (InBounds(row, col) && board.EmptySpace(row, col)) {
                         availableMoves.Add(Square.At(row, col));
                     }
-                    else
+                    else 
                     {
                         if (InBounds(row, col) && board.GetPiece(Square.At(row, col)).Player != board.CurrentPlayer)
                         {
                             availableMoves.Add(Square.At(row, col));
                         }
+
                         break;
                     }
                 }
@@ -89,7 +90,7 @@ namespace Chessington.GameEngine.Pieces
         
         protected static bool InBounds(int row, int col)
         {
-            return row >= 0 && row <= 7 && col >= 0 && col <= 7;
+            return row >= 0 && row < GameSettings.BoardSize && col >= 0 && col < GameSettings.BoardSize;
         }
     }
 }
