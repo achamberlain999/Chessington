@@ -20,7 +20,7 @@ namespace Chessington.GameEngine.Pieces
             {
                 var row = currentSquare.Row + x[moveIndex];
                 var col = currentSquare.Col + y[moveIndex];
-                if (InBounds(row,col))
+                if (InBounds(row,col) && (board.EmptySpace(row,col) || board.GetPiece(Square.At(row,col)).Player != board.CurrentPlayer))
                 {
                     availableMoves.Add(Square.At(row,col));
                 }
