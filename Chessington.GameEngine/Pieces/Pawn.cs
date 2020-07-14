@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Configuration;
 
 namespace Chessington.GameEngine.Pieces
@@ -21,9 +22,22 @@ namespace Chessington.GameEngine.Pieces
             if (InBounds(row, col) && board.EmptySpace(row, col))
             {
                 availableMoves.Add(Square.At(row, col));
-                if (FirstMove && InBounds(row,col) && board.EmptySpace(row+forwardDirection, col))
+                if (FirstMove && InBounds(row,col) && board.EmptySpace(row + forwardDirection, col))
                 {
                     availableMoves.Add(Square.At(row + forwardDirection, col));
+                }
+            }
+
+            var x = new List<int> {1, -1};
+
+            for (var moveIndex = 0; moveIndex <= 1; moveIndex++)
+            {
+                var takeRow = currentSquare.Row + forwardDirection;
+                var takeCol = currentSquare.Col + x[moveIndex];
+                if (InBounds(takeRow, takeCol) && !board.EmptySpace(takeRow, takeCol) && board.GetPiece(Square.At(takeRow, takeCol)).Player !=
+                    board.GetPiece(Square.At(currentSquare.Row, currentSquare.Col)).Player)
+                {
+                    availableMoves.Add(Square.At(takeRow,takeCol));
                 }
             }
 
