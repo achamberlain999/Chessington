@@ -84,5 +84,10 @@ namespace Chessington.GameEngine
             var handler = CurrentPlayerChanged;
             if (handler != null) handler(player);
         }
+        
+        public bool EmptySpace(int row, int col)
+        {
+            return GetPiece(Square.At(row, col)) == null;
+        }
     }
 }

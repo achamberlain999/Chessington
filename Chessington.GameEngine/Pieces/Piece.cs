@@ -28,56 +28,57 @@ namespace Chessington.GameEngine.Pieces
         protected IEnumerable<Square> GetDiagonalMovesList(Board board)
         {
             var currentSquare = board.FindPiece(this);
-            var availableMovesList = new List<Square>();
+            var availableMoves = new List<Square>();
             
             var x = new List<int> {1, 1, -1, -1};
             var y = new List<int> {1, -1, 1, -1};
 
-            for (var j = 0; j < 4; j++)
+            for (var directionIndex = 0; directionIndex < 4; directionIndex++)
             {
-                for (var i = 0; i <= 8; i++)
+                for (var distance = 1; distance <= 7; distance++)
                 {
-                    var tryRow = currentSquare.Row + i * y[j];
-                    var tryCol = currentSquare.Row + i * x[j];
-                    if (InBounds(tryRow, tryCol)) {
-                        availableMovesList.Add(new Square(tryRow, tryCol));
+                    var row = currentSquare.Row + distance * y[directionIndex];
+                    var col = currentSquare.Row + distance * x[directionIndex];
+                    if (InBounds(row, col) && board.EmptySpace(row, col)) {
+                        availableMoves.Add(Square.At(row, col));
                     }
                     else
                     {
+                        if (InBounds(row, col) && board.GetPiece(Square.At(row, col)).Player != board.CurrentPlayer)
+                        {
+                            availableMoves.Add(Square.At(row, col));
+                        }
                         break;
                     }
                 }
             }
             
-            availableMovesList.RemoveAll(s => s == Square.At(currentSquare.Row, currentSquare.Col));
-            return availableMovesList;
+            return availableMoves;
         }
 
         protected IEnumerable<Square> GetLateralMovesList(Board board)
         {
             var currentSquare = board.FindPiece(this);
-            var currentPlayer = board.CurrentPlayer;
             var availableMoves = new List<Square>();
             
             var x = new List<int> {1, -1, 0, 0};
             var y = new List<int> {0, 0, 1, -1};
 
-            for (var j = 0; j < 4; j++)
+            for (var directionIndex = 0; directionIndex < 4; directionIndex++)
             {
-                for (var i = 1; i <= 8; i++)
+                for (var distance = 1; distance <= 7; distance++)
                 {
-                    var tryRow = currentSquare.Row + i * y[j];
-                    var tryCol = currentSquare.Row + i * x[j];
-                    if (InBounds(tryRow, tryCol) && board.GetPiece(Square.At(tryRow, tryCol)) == null) {
-                        availableMoves.Add(Square.At(tryRow, tryCol));
-                    }
-                    else if (InBounds(tryRow, tryCol) && board.GetPiece(Square.At(tryRow, tryCol)).Player != currentPlayer)
-                    {
-                        availableMoves.Add(Square.At(tryRow, tryCol));
-                        break;
+                    var row = currentSquare.Row + distance * y[directionIndex];
+                    var col = currentSquare.Row + distance * x[directionIndex];
+                    if (InBounds(row, col) && board.EmptySpace(row, col)) {
+                        availableMoves.Add(Square.At(row, col));
                     }
                     else
                     {
+                        if (InBounds(row, col) && board.GetPiece(Square.At(row, col)).Player != board.CurrentPlayer)
+                        {
+                            availableMoves.Add(Square.At(row, col));
+                        }
                         break;
                     }
                 }
@@ -86,7 +87,7 @@ namespace Chessington.GameEngine.Pieces
             return availableMoves;
         }
         
-        protected bool InBounds(int row, int col)
+        protected static bool InBounds(int row, int col)
         {
             return row >= 0 && row <= 7 && col >= 0 && col <= 7;
         }
