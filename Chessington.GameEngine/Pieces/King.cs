@@ -16,13 +16,13 @@ namespace Chessington.GameEngine.Pieces
             var x = new List<int> {0, 1, 1, 1, 0, -1, -1, -1};
             var y = new List<int> {1, 1, 0, -1, -1, -1, 0, 1};
 
-            for (var i = 0; i < 8; i++)
+            for (var moveIndex = 0; moveIndex < 8; moveIndex++)
             {
-                var tryRow = currentSquare.Row + x[i];
-                var tryCol = currentSquare.Col + y[i];
-                if (InBounds(tryRow,tryCol))
+                var row = currentSquare.Row + x[moveIndex];
+                var col = currentSquare.Col + y[moveIndex];
+                if (InBounds(row,col))
                 {
-                    availableMoves.Add(new Square(tryRow,tryCol));
+                    availableMoves.Add(Square.At(row,col));
                 }
             }
 
