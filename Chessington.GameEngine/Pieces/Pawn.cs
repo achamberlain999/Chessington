@@ -15,18 +15,16 @@ namespace Chessington.GameEngine.Pieces
 
             var forwardDirection = (Player == Player.White) ? -1 : +1;
 
-            var tryRow = currentSquare.Row + forwardDirection;
-            var tryCol = currentSquare.Col;
+            var row = currentSquare.Row + forwardDirection;
+            var col = currentSquare.Col;
 
-            if (board.GetPiece(Square.At(tryRow, tryCol)) != null)
+            if (InBounds(row, col) && board.EmptySpace(row, col))
             {
-                return availableMoves;
-            }
-            
-            availableMoves.Add(Square.At(tryRow, tryCol));
-            if (FirstMove && board.GetPiece(Square.At(tryRow + forwardDirection, tryCol)) == null)
-            {
-                availableMoves.Add(Square.At(tryRow + forwardDirection, tryCol));
+                availableMoves.Add(Square.At(row, col));
+                if (FirstMove && InBounds(row,col) && board.EmptySpace(row+forwardDirection, col))
+                {
+                    availableMoves.Add(Square.At(row + forwardDirection, col));
+                }
             }
 
             return availableMoves;
