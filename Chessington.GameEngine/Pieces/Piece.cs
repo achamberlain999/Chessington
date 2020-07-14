@@ -33,14 +33,18 @@ namespace Chessington.GameEngine.Pieces
             var x = new List<int> {1, 1, -1, -1};
             var y = new List<int> {1, -1, 1, -1};
 
-            for (var i = 0; i <= 8; i++)
+            for (var j = 0; j < 4; j++)
             {
-                for (var j = 0; j < 4; j++)
+                for (var i = 0; i <= 8; i++)
                 {
                     var tryRow = currentSquare.Row + i * y[j];
                     var tryCol = currentSquare.Row + i * x[j];
                     if (InBounds(tryRow, tryCol)) {
                         availableMovesList.Add(new Square(tryRow, tryCol));
+                    }
+                    else
+                    {
+                        break;
                     }
                 }
             }
@@ -52,16 +56,34 @@ namespace Chessington.GameEngine.Pieces
         protected IEnumerable<Square> GetLateralMovesList(Board board)
         {
             var currentSquare = board.FindPiece(this);
-            var availableMovesList = new List<Square>();
+            var currentPlayer = board.CurrentPlayer;
+            var availableMoves = new List<Square>();
             
-            for (var i = 0; i < 8; i++)
+            var x = new List<int> {1, -1, 0, 0};
+            var y = new List<int> {0, 0, 1, -1};
+
+            for (var j = 0; j < 4; j++)
             {
-                availableMovesList.Add(new Square(currentSquare.Row,i));
-                availableMovesList.Add(new Square(i,currentSquare.Col));
+                for (var i = 1; i <= 8; i++)
+                {
+                    var tryRow = currentSquare.Row + i * y[j];
+                    var tryCol = currentSquare.Row + i * x[j];
+                    if (InBounds(tryRow, tryCol) && board.GetPiece(Square.At(tryRow, tryCol)) == null) {
+                        availableMoves.Add(Square.At(tryRow, tryCol));
+                    }
+                    else if (InBounds(tryRow, tryCol) && board.GetPiece(Square.At(tryRow, tryCol)).Player != currentPlayer)
+                    {
+                        availableMoves.Add(Square.At(tryRow, tryCol));
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
             }
-            
-            availableMovesList.RemoveAll(s => s == Square.At(currentSquare.Row, currentSquare.Col));
-            return availableMovesList;
+
+            return availableMoves;
         }
         
         protected bool InBounds(int row, int col)
