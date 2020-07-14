@@ -26,7 +26,6 @@ namespace Chessington.GameEngine.Pieces
                 }
             }
             
-            availableMovesList.RemoveAll(s => s == Square.At(currentSquare.Row, currentSquare.Col));
             IEnumerable<Square> availableMoves = availableMovesList;
             
             return availableMoves;
